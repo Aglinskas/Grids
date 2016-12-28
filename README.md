@@ -7,4 +7,4 @@ Grids with non-overlapping shapes drawn with PsychToolBox
 
 
 
-[https://www.youtube.com/watch?v=XdoanGQBwFI](url)
+[![Everything Is AWESOME](https://cloud.githubusercontent.com/assets/15108226/21528095/49d0cabc-cd30-11e6-96a0-40c9ebd1cbff.jpg)](https://www.youtube.com/watch?v=XdoanGQBwFI "Everything Is AWESOME")
