@@ -1,5 +1,9 @@
 # Grids
 
+### How it works?
+![Operating principle](http://replygif.net/i/336.gif)
+
+
 ### Generates randomly put, non-overlapping shapes, like so:
 ![screen shot 2016-12-28 at 18 58 46](https://cloud.githubusercontent.com/assets/15108226/21528029/b3cf764e-cd2f-11e6-9ddc-c5688aa0c7fd.jpg)
 
