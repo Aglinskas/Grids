@@ -1,8 +1,17 @@
-p.root = '/Users/aidasaglinskas/Desktop/Grids/';
-p.ofn = '/Users/aidasaglinskas/Desktop/Saved_grids/'; %where to save
-p.ofn_fn_temp = 'BC=%d,BT=%d,YC=%d,YT=%d'; %filename template
-p.f_list_dir = '/Users/aidasaglinskas/Desktop/Grids/f_list.mat';
+p.root = 'C:\Users\Marta\Desktop\GRIDS_unzipped\Grids-master';
+p.ofn = 'C:\Users\Marta\Desktop\GRIDS_unzipped\Grids-master\Saved_Grids'; %where to save
+p.ofn_fn_temp = 'BC=%d_BT=%d_YC=%d_YT=%d'; %filename template
+p.f_list_dir = 'C:\Users\Marta\Desktop\GRIDS_unzipped\Grids-master\f_list.mat';
 variations = 4;
+
+% ignore the annoying warnings
+w{1} =  'MATLAB:colon:nonIntegerIndex';
+
+for w_ind = 1:length(w);
+    warning('off',w{w_ind});
+end
+%'Function isrow has the same name as a MATLAB builtin. We suggest you rename the function to avoid a potential name conflict'
+
 % get_flist 
 try 
     load(p.f_list_dir)
@@ -23,20 +32,20 @@ size_factor = 2.31; %how much to shring the original images
 % f(2) = 12;% how many blue_triangle_w
 % f(3) = 20;% how many yellow_circle_w
 % f(4) = 12;% how many yellow_triangle_w
-
-for conf = 1:size(f_list,1)
-    f = f_list(conf,:);
-for vv = 1:variations
-    disp(sprintf('Running Configuration %d/%d, version %d/%d',conf,size(f_list,1),vv,variations))
-        % Running Code, loop this
 % Get pics
 addpath(p.root);
-temp = dir([p.root '*.jpg']);temp = {temp.name}';
+temp = dir([p.root '\*.jpg']);temp = {temp.name}';
 p.pics = cellfun(@(x) fullfile(p.root,x),temp,'UniformOutput',0);
 
 s = imread(p.pics{1});% initial counter, to get the borders
 s = s(1:size_factor:end,1:size_factor:end,:);
 imsize = size(s);
+for conf = 1:size(f_list,1)
+    f = f_list(conf,:);
+for vv = 1:variations
+    disp(sprintf('Running Configuration %d/%d, version %d/%d',conf,size(f_list,1),vv,variations))
+        % Running Code, loop this
+
 %Define canvas
 im = repmat(c.colour,c.size(1),c.size(2),3);
 im = uint8(im); %convertion needed
@@ -87,7 +96,7 @@ end
 %disp('Flipped')
 %imageArray = Screen('GetImage', windowPtr, windowSize*red_fact);
 %p.ofn = ['/Users/aidasaglinskas/Desktop/Saved_grids/1.png'];
-imwrite(im,fullfile(p.ofn,[sprintf(p.ofn_fn_temp,f(1),f(2),f(3),f(4)) '  : ' datestr(datetime) '.bmp']),'bmp')
+imwrite(im,fullfile(p.ofn,[sprintf(p.ofn_fn_temp,f(1),f(2),f(3),f(4)) ' var ' num2str(vv) '.bmp']),'bmp')
 figure(1)
 h = image(im);
 end
