@@ -1,5 +1,6 @@
-p.root = '/Users/aidasaglinskas/Desktop/Grids/'
-p.ofn = '/Users/aidasaglinskas/Desktop/Saved_grids/' %where to save
+p.root = '/Users/aidasaglinskas/Desktop/Grids/';
+p.ofn = '/Users/aidasaglinskas/Desktop/Saved_grids/'; %where to save
+p.ofn_fn_temp = 'BC=%d,BT=%d,YC=%d,YT=%d'; %filename template
 %p.background = '/Users/aidasaglinskas/Desktop/Grids/Old_figs/background.jpg';
 c.size = [1092 1365] %(c)anvas size [hight width]
 c.colour = 218; % 0-255
@@ -17,11 +18,10 @@ imsize = size(s);
 
 im = repmat(c.colour,c.size(1),c.size(2),3);
 im = uint8(im); %convertion needed
-% pos = all posible positions of the screen
-pos = CombVec(1:c.size(1)-imsize(1),1:c.size(2)-imsize(2))';
+pos = CombVec(1:c.size(1)-imsize(1),1:c.size(2)-imsize(2))'; % pos = all posible positions of the screen
 s_ind = 0; % initiate counter of how many shapes are fitted;
 disp('Generating')
-% B_C,B_T,Y_C,Y_T
+
 % Grid parameters
 f(1) = 4; % how many blue_circle_w
 f(2) = 12;% how many blue_triangle_w
@@ -53,8 +53,8 @@ e(2) = randx+imsize(1)-1;
 e(3) = randy;
 e(4) = randy+imsize(2)-1;
 
-%if sum([e([1 2]) > c.size(2) e([3 4]) > c.size(1)]) > 0
-%    error('Edge outside of canvas');end
+if sum([e([1 2]) > c.size(1) e([3 4]) > c.size(2)]) > 0
+   error('Edge outside of canvas');end
 
 im(e(1):e(2),e(3):e(4),:) = s;
 % code so shapes don't overlap
@@ -70,6 +70,6 @@ end
 %disp('Flipped')
 %imageArray = Screen('GetImage', windowPtr, windowSize*red_fact);
 %p.ofn = ['/Users/aidasaglinskas/Desktop/Saved_grids/1.png'];
-imwrite(im,fullfile(p.ofn,[datestr(datetime) '.bmp']),'bmp')
-image(im)
-%%
+imwrite(im,fullfile(p.ofn,[sprintf(p.ofn_fn_temp,f(1),f(2),f(3),f(4)) '  : ' datestr(datetime) '.bmp']),'bmp')
+figure(1)
+h = image(im);
