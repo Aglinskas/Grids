@@ -4,10 +4,12 @@ p.ofn_fn_temp = 'BC=%d,BT=%d,YC=%d,YT=%d'; %filename template
 %p.background = '/Users/aidasaglinskas/Desktop/Grids/Old_figs/background.jpg';
 c.size = [1092 1365] %(c)anvas size [hight width]
 c.colour = 218; % 0-255
-size_factor = 2; %how much to shring the original images
+size_factor = 2.31; %how much to shring the original images
+% 2.31 is a magic number, like pi or e apparently,
+% for 100x100 shapes
 % semi-automatic code below (not the pew-pew-pew kind, the CMD+ENTER code blocks kind)
 % Blank Screen is up;
-%% Get assets
+% Get assets
 addpath(p.root);
 temp = dir([p.root '*.jpg']);temp = {temp.name}';
 p.pics = cellfun(@(x) fullfile(p.root,x),temp,'UniformOutput',0);
@@ -20,7 +22,7 @@ im = repmat(c.colour,c.size(1),c.size(2),3);
 im = uint8(im); %convertion needed
 pos = CombVec(1:c.size(1)-imsize(1),1:c.size(2)-imsize(2))'; % pos = all posible positions of the screen
 s_ind = 0; % initiate counter of how many shapes are fitted;
-disp('Generating')
+disp('Fitting shapes')
 
 % Grid parameters
 f(1) = 4; % how many blue_circle_w
@@ -63,7 +65,8 @@ a = CombVec([e(1)-imsize(1):e(2)],[e(3)-imsize(2):e(4)])'; % original
 [C,IA,IB] = intersect(pos,a,'rows');
 pos(IA,:) = [];
 %Screen('DrawTexture', windowPtr, imageTexture, [], [e(1) e(3) e(2) e(4)],0);
-s_counter = s_counter+1
+s_counter = s_counter+1;
+disp(sprintf('%d/%d',s_counter,sum(f)))
 end
 % Flip the drawn shapes
 %Screen('Flip', windowPtr);
